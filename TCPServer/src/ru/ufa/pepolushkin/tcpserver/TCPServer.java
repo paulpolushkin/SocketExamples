@@ -29,8 +29,8 @@ public class TCPServer {
             ServerSocket listenSocket = new ServerSocket(port);
             ExecutorService exec = Executors.newFixedThreadPool(10);
             while(true) {
-                Socket clientSocket = listenSocket.accept();
-                Connection conn = new Connection(clientSocket);
+                Connection conn = new Connection(
+                        listenSocket.accept());
                 exec.execute(conn);
                 i++;
                 if(i > port) {

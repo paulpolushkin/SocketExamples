@@ -34,11 +34,16 @@ public class Connection implements Runnable {
             String data = dis.readUTF();
             dos.writeUTF(data);
             logger.info(data);
-            clientSocket.close();
         } catch (EOFException ex) {
             logger.log(Level.SEVERE, "EOF: {0}", ex.getMessage());
         } catch (IOException ex) {
             logger.log(Level.SEVERE, "IOException: {0}", ex.getMessage());
+        } finally {
+            try {
+                clientSocket.close();
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, "IOException: {0}", ex.getMessage());
+            }
         }
     }
 }
