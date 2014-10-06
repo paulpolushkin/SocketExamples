@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -29,22 +28,24 @@ public class TCPClient {
         Scanner scan = new Scanner(System.in);
         DataInputStream dis;
         DataOutputStream dos;
+	    String text;
         while(true) {
             try(Socket socket = new Socket("localhost", port)) {
-                String text = scan.nextLine();
-                if("exit".equalsIgnoreCase(text))
-                    break;
+                text = scan.nextLine();
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
                 dos.writeUTF(text);
                 String data = dis.readUTF();
                 logger.info(data);
+	            if ("exit".equalsIgnoreCase(data)) {
+		            break;
+	            }
             } catch(UnknownHostException e) {
-                logger.log(Level.SEVERE, "Socket: {0}", e.getMessage());
+                logger.severe(e.toString());
             } catch(EOFException e) {
-                logger.log(Level.SEVERE, "EOF: {0}", e.getMessage());
+                logger.severe(e.toString());
             } catch(IOException e) {
-                logger.log(Level.SEVERE, "IOException: {0}", e.getMessage());
+                logger.severe(e.toString());
             }
         }
     }

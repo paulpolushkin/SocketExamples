@@ -11,7 +11,6 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -19,7 +18,7 @@ import java.util.logging.Logger;
  * @author Pavel Polushkin
  */
 public class Connection implements Runnable {
-    Socket clientSocket;
+    private Socket clientSocket;
     static final Logger logger = Logger.getLogger(Connection.class.getName());
     
     public Connection(Socket socket) {
@@ -35,14 +34,14 @@ public class Connection implements Runnable {
             dos.writeUTF(data);
             logger.info(data);
         } catch (EOFException ex) {
-            logger.log(Level.SEVERE, "EOF: {0}", ex.getMessage());
+            logger.severe(ex.toString());
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, "IOException: {0}", ex.getMessage());
+            logger.severe(ex.toString());
         } finally {
             try {
                 clientSocket.close();
             } catch (IOException ex) {
-                logger.log(Level.SEVERE, "IOException: {0}", ex.getMessage());
+                logger.severe(ex.toString());
             }
         }
     }
