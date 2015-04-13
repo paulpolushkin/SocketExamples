@@ -30,7 +30,7 @@ public class TCPClient {
         DataOutputStream dos;
 	    String text;
         while(true) {
-            try(Socket socket = new Socket("localhost", port)) {
+            try(Socket socket = new Socket("127.0.0.1", port)) {
                 text = scan.nextLine();
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
@@ -40,10 +40,6 @@ public class TCPClient {
 	            if ("exit".equalsIgnoreCase(data)) {
 		            break;
 	            }
-            } catch(UnknownHostException e) {
-                logger.severe(e.toString());
-            } catch(EOFException e) {
-                logger.severe(e.toString());
             } catch(IOException e) {
                 logger.severe(e.toString());
             }
